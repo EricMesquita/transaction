@@ -15,7 +15,7 @@ import com.transaction.transaction.repositories.AccountRepository;
 public class AccountService {
 
 	private static final String DOCUMENT_EXCEPTION_MESSAGE = "Já existe uma conta cadastrada com o documento!";
-	private static final String ACCOUNT_NOT_FOUND = "A conta não foi encotnrada";
+	private static final String ACCOUNT_NOT_FOUND = "A conta não foi encontrada";
 
 	@Autowired
 	private AccountRepository repository;
