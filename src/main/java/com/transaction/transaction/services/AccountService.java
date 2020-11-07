@@ -2,8 +2,6 @@ package com.transaction.transaction.services;
 
 import static java.util.Optional.ofNullable;
 
-import lombok.AllArgsConstructor;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +15,7 @@ import com.transaction.transaction.repositories.AccountRepository;
 public class AccountService {
 
 	private static final String DOCUMENT_EXCEPTION_MESSAGE = "Já existe uma conta cadastrada com o documento!";
+	private static final String ACCOUNT_NOT_FOUND = "A conta não foi encotnrada";
 
 	@Autowired
 	private AccountRepository repository;
@@ -34,5 +33,18 @@ public class AccountService {
 	private boolean verifyIfExistsAlreadyAccount(AccountDTO accountDTO) {
 		return ofNullable( repository.findByDocument( accountDTO.getDocumentNumber() ) )
 				.isPresent();
+	}
+
+	public AccountDTO find(Long accountId) {
+		return ofNullable( accountId )
+				.map( this::findById )
+				.map( mapper::toDTO )
+				.orElseThrow( () -> new AccountException( ACCOUNT_NOT_FOUND ) );
+	}
+
+	private Account findById(Long accountId) {
+		return repository
+				.findById( accountId )
+				.orElse( null );
 	}
 }

@@ -1,10 +1,14 @@
 package com.transaction.transaction.services;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
+
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,10 +58,6 @@ public class AccountServiceTest {
 		assertThat( dto.getDocumentNumber(), equalTo( DOCUMENT_NUMBER ) );
 	}
 
-	private Account buildAccount() {
-		return Account.builder().document( DOCUMENT_NUMBER ).build();
-	}
-
 	@Test(expected = AccountException.class)
 	public void shouldReturnAccountException() {
 		AccountDTO accountDTO = buildAccountDTO();
@@ -69,10 +69,45 @@ public class AccountServiceTest {
 		verifyNoInteractions( mapper );
 	}
 
+	@Test
+	public void shouldReturnAccountDTO() {
+		Optional<Account> account = of( buildAccount() );
+		when( repository.findById( ID ) ).thenReturn( account );
+		when( mapper.toDTO( account.get() ) ).thenReturn( buildAccountDTO() );
+
+		AccountDTO dto = service.find( ID );
+
+		assertThat( dto.getId(), equalTo( ID ) );
+		assertThat( dto.getDocumentNumber(), equalTo( DOCUMENT_NUMBER ) );
+	}
+
+	@Test(expected = AccountException.class)
+	public void shouldReturnAccountExceptionWhenAccountNotFound() {
+		when( repository.findById( ID ) ).thenReturn( empty() );
+
+		service.find( ID );
+
+		verifyNoInteractions( mapper );
+	}
+
+	@Test(expected = AccountException.class)
+	public void shouldReturnAccountExceptionWhenAccountIdIsNull() {
+		service.find( null );
+
+		verifyNoInteractions( mapper );
+		verifyNoInteractions( repository );
+	}
+
 	private AccountDTO buildAccountDTO() {
 		return AccountDTO.builder()
 				.id( ID )
 				.documentNumber( DOCUMENT_NUMBER )
+				.build();
+	}
+
+	private Account buildAccount() {
+		return Account.builder()
+				.document( DOCUMENT_NUMBER )
 				.build();
 	}
 }

@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -71,6 +72,21 @@ public class AccountControllerTests {
 		when( mapper.toDTO( account ) ).thenReturn( accountDTO );
 
 		mvc.perform( post( URL )
+				.contentType( MediaType.APPLICATION_JSON )
+				.content( objectMapper
+						.writeValueAsString( buildAccountDTO( DOCUMENT_NUMBER ) ) ) )
+				.andExpect( MockMvcResultMatchers.status().isOk() )
+				.andExpect( jsonPath( "$.account_id", is( ID.intValue() ) ) )
+				.andExpect( jsonPath( "$.document_number", equalTo( DOCUMENT_NUMBER ) ) );
+	}
+
+	@Test
+	public void find() throws Exception {
+		AccountDTO accountDTO = buildAccountDTO( DOCUMENT_NUMBER );
+		when( service.find( ID ) ).thenReturn( accountDTO );
+		when( mapper.toDTO( buildAccount() ) ).thenReturn( accountDTO );
+
+		mvc.perform( get( URL + "/" + ID )
 				.contentType( MediaType.APPLICATION_JSON )
 				.content( objectMapper
 						.writeValueAsString( buildAccountDTO( DOCUMENT_NUMBER ) ) ) )
