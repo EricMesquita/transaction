@@ -1,0 +1,12 @@
+#: Application configuration
+environment:
+  status: OK
+spring:
+  application:
+    name: transaction
+  datasource:
+    username: user
+    password: password
+    url: jdbc:postgresql://database:5432/transaction
+    driver-class-name: org.postgresql.Driver
+

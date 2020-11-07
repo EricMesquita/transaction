@@ -1,0 +1,22 @@
+version: '3.1'
+services:
+  database:
+    image: postgres
+    container_name: transaction
+    environment:
+      - POSTGRES_DB=transaction
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./scripts/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+  app:
+    build: .
+    image: app
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
