@@ -9,7 +9,7 @@ compile:
 
 debug:
 	mvn spring-boot:run -Dagentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000
-
+# 	mvn spring-boot:run -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:8000
 compose-up:
 	docker-compose -f docker-compose.yml up --build
 

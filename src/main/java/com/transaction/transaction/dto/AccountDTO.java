@@ -21,6 +21,6 @@ public class AccountDTO {
 
 	@JsonProperty("document_number")
 	@NotNull(message = "O número do documento não pode ser nulo")
-	@NotEmpty(message = "O número do documento não vazio")
+	@NotEmpty(message = "O número do documento não pode ser não vazio")
 	private String documentNumber;
 }

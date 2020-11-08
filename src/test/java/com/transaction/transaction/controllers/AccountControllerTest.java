@@ -34,7 +34,7 @@ import com.transaction.transaction.services.AccountService;
 @EnableAutoConfiguration
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TransactionApplication.class)
-public class AccountControllerTests {
+public class AccountControllerTest {
 
 	private static final String DOCUMENT_NUMBER = "12345678900";
 	private static final String URL = "/accounts";
