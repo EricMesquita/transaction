@@ -39,4 +39,16 @@ public class ExceptionAdvice {
 		return ErrorDTO.builder().message( ex.getMessage() ).build();
 	}
 
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(OperationTypeException.class)
+	public ErrorDTO accountException(OperationTypeException ex) {
+		return buildErrorDTO( ex );
+	}
+
+	private ErrorDTO buildErrorDTO(OperationTypeException ex) {
+		return ErrorDTO.builder()
+				.message( ex.getMessage() )
+				.build();
+	}
+
 }
