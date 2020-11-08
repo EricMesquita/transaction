@@ -37,7 +37,6 @@ import com.transaction.transaction.services.TransactionService;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TransactionApplication.class)
 public class TransactionControllerTest {
 
-	private static final String DOCUMENT_NUMBER = "12345678900";
 	private static final String URL = "/transactions";
 	private static final Long ID = 1l;
 	private static final long OPERATION_TYPE = 1l;
