@@ -22,7 +22,7 @@ make start
 
 ###### Executar testes
 ```
-make compile
+make test
 ```
 
 # Endpoints
