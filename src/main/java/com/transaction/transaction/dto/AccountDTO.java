@@ -1,5 +1,7 @@
 package com.transaction.transaction.dto;
 
+import java.math.BigDecimal;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -23,4 +25,8 @@ public class AccountDTO {
 	@NotNull(message = "O número do documento não pode ser nulo")
 	@NotEmpty(message = "O número do documento não pode ser não vazio")
 	private String documentNumber;
+
+	@JsonProperty("available_credit_limit")
+	@NotNull(message = "O campo referente ao credito disponivel na conta não pode ser nulo")
+	private BigDecimal availableCreditLimit;
 }

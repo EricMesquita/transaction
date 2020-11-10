@@ -11,6 +11,7 @@ public class AccountMapper {
 	public Account toEntity(AccountDTO dto) {
 		return Account.builder()
 				.document( dto.getDocumentNumber() )
+				.credit( dto.getAvailableCreditLimit() )
 				.build();
 	}
 
@@ -18,6 +19,7 @@ public class AccountMapper {
 		return AccountDTO.builder()
 				.id( account.getId() )
 				.documentNumber( account.getDocument() )
+				.availableCreditLimit( account.getCredit() )
 				.build();
 	}
 }

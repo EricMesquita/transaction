@@ -9,6 +9,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
+import java.math.BigDecimal;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +39,7 @@ import com.transaction.transaction.services.AccountService;
 public class AccountControllerTest {
 
 	private static final String DOCUMENT_NUMBER = "12345678900";
+	private static final BigDecimal CREDIT = new BigDecimal( "100" );
 	private static final String URL = "/accounts";
 	private static final Long ID = 1l;
 
@@ -77,7 +80,8 @@ public class AccountControllerTest {
 						.writeValueAsString( buildAccountDTO( DOCUMENT_NUMBER ) ) ) )
 				.andExpect( MockMvcResultMatchers.status().isOk() )
 				.andExpect( jsonPath( "$.account_id", is( ID.intValue() ) ) )
-				.andExpect( jsonPath( "$.document_number", equalTo( DOCUMENT_NUMBER ) ) );
+				.andExpect( jsonPath( "$.document_number", equalTo( DOCUMENT_NUMBER ) ) )
+				.andExpect( jsonPath( "$.available_credit_limit", equalTo( CREDIT ) ) );
 	}
 
 	@Test
@@ -92,13 +96,15 @@ public class AccountControllerTest {
 						.writeValueAsString( buildAccountDTO( DOCUMENT_NUMBER ) ) ) )
 				.andExpect( MockMvcResultMatchers.status().isOk() )
 				.andExpect( jsonPath( "$.account_id", is( ID.intValue() ) ) )
-				.andExpect( jsonPath( "$.document_number", equalTo( DOCUMENT_NUMBER ) ) );
+				.andExpect( jsonPath( "$.document_number", equalTo( DOCUMENT_NUMBER ) ) )
+				.andExpect( jsonPath( "$.available_credit_limit", equalTo( CREDIT ) ) );
 	}
 
 	private Account buildAccount() {
 		return Account.builder()
 				.id( ID )
 				.document( DOCUMENT_NUMBER )
+				.credit( CREDIT )
 				.build();
 	}
 
@@ -106,6 +112,7 @@ public class AccountControllerTest {
 		return AccountDTO.builder()
 				.id( ID )
 				.documentNumber( documentNumber )
+				.availableCreditLimit( CREDIT )
 				.build();
 	}
 }

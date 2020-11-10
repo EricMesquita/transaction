@@ -1,5 +1,6 @@
 package com.transaction.transaction.entities;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -27,6 +28,8 @@ public class Account {
 	private Long id;
 
 	private String document;
+
+	private BigDecimal credit;
 
 	@OneToMany(mappedBy = "account")
 	private List<Transaction> transactions;

@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS account (
     id bigint PRIMARY KEY NOT NULL,
-    document CHARACTER VARYING(255) NOT NULL
+    document CHARACTER VARYING(255) NOT NULL,
+    credit numeric(15,2) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS transaction (

@@ -45,6 +45,14 @@ public class ExceptionAdvice {
 		return buildErrorDTO( ex );
 	}
 
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(TransactionException.class)
+	public ErrorDTO transactionException(TransactionException ex) {
+		return ErrorDTO.builder()
+				.message( ex.getMessage() )
+				.build();
+	}
+
 	private ErrorDTO buildErrorDTO(OperationTypeException ex) {
 		return ErrorDTO.builder()
 				.message( ex.getMessage() )
