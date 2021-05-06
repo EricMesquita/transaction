@@ -3,6 +3,7 @@ package com.transaction.transaction.services;
 import static com.transaction.transaction.enumarations.TypeValue.POSITIVE;
 import static java.util.Optional.ofNullable;
 
+import com.transaction.transaction.dto.AccountBalenceDTO;
 import lombok.AllArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -52,5 +53,10 @@ public class TransactionService {
 	private void validateIfAccountExist(TransactionDTO dto) {
 		accountRepository.findById( dto.getAccountId() )
 				.orElseThrow( () -> new AccountException( ACCOUNT_NOT_FOUND ) );
+	}
+
+	public AccountBalenceDTO find(Long accountId) {
+		Transaction transaction = repository.findAllByAccountId(accountId).get(0);
+		return AccountBalenceDTO.builder().accountId(transaction.getAccount().getId()).amount(transaction.getAmount()).build();
 	}
 }

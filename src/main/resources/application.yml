@@ -9,4 +9,5 @@ spring:
     password: password
     url: jdbc:postgresql://database:5432/transaction
     driver-class-name: org.postgresql.Driver
-
+server:
+  port: 8081
