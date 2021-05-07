@@ -16,6 +16,9 @@ import com.transaction.transaction.mappers.TransactionMapper;
 import com.transaction.transaction.repositories.AccountRepository;
 import com.transaction.transaction.repositories.TransactionRepository;
 
+import java.math.BigDecimal;
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class TransactionService {
@@ -56,7 +59,11 @@ public class TransactionService {
 	}
 
 	public AccountBalenceDTO find(Long accountId) {
-		Transaction transaction = repository.findAllByAccountId(accountId).get(0);
-		return AccountBalenceDTO.builder().accountId(transaction.getAccount().getId()).amount(transaction.getAmount()).build();
+		var transaction = repository.findAllByAccountId(accountId);
+
+		Optional<BigDecimal> totalAmount = transaction.stream().map(Transaction::getAmount).reduce(BigDecimal::add);
+
+		Long id = !transaction.isEmpty() ? transaction.get(0).getAccount().getId() : null;
+		return AccountBalenceDTO.builder().accountId(id).amount(totalAmount.orElse(BigDecimal.ZERO)).build();
 	}
 }

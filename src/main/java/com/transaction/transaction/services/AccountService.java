@@ -24,8 +24,6 @@ public class AccountService {
 	private AccountMapper mapper;
 
 	public AccountDTO create(AccountDTO accountDTO) {
-		if (verifyIfExistsAlreadyAccount( accountDTO ))
-			throw new AccountException( DOCUMENT_EXCEPTION_MESSAGE );
 		Account account = repository.save( mapper.toEntity( accountDTO ) );
 		return mapper.toDTO( account );
 	}
